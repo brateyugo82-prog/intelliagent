@@ -5,9 +5,10 @@ services:
     plan: starter
     region: frankfurt
 
-    # Wichtig: im backend-Ordner arbeiten
-    buildCommand: cd backend && pip install -r requirements.txt
-    startCommand: cd backend && uvicorn api.meta.webhook:app --host 0.0.0.0 --port 10000
+    rootDir: backend  # <– jetzt korrekt: Render wechselt automatisch in /backend
+
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn api.meta.webhook:app --host 0.0.0.0 --port 10000"
 
     envVars:
       - key: PORT
