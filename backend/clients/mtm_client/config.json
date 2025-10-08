@@ -1,0 +1,67 @@
+{
+  "name": "MTM",
+  "description": "Möbel Transport Montage – Umzüge, Transporte, Montage und Entrümpelung.",
+  
+  "assets": {
+    "logo": "assets/logo(1).png",
+    "images": [
+      "assets/flotte.png",
+      "assets/label.txt"
+    ]
+  },
+
+  "contact": {
+    "email": "info@mtm-service.de",
+    "phone": "+49 511 1234567",
+    "address": "Hannover, Deutschland",
+    "website": "https://mtm-service.de"
+  },
+
+  "agents": {
+    "content_agent": {
+      "task": "Erstelle hilfreichen Content rund um Umzüge, Möbeltransporte, Montage und Entrümpelung für die Website oder Social Media.",
+      "examples": [
+        "10 Tipps für einen stressfreien Umzug",
+        "Checkliste: Möbel sicher transportieren",
+        "So bereitest du deine Küche für den Abbau vor"
+      ]
+    },
+    "design_agent": {
+      "task": "Erzeuge visuelle Ideen und Beschreibungen für Designs, Logos, Social-Media-Posts und Infografiken passend zu Umzügen und Transporten.",
+      "examples": [
+        "Ein modernes Header-Bild für die Transport-Seite",
+        "Instagram-Post mit Tipps für den nächsten Umzug",
+        "Logo-Variation mit Möbel- und LKW-Elementen"
+      ]
+    },
+    "communication_agent": {
+      "task": "Formuliere ansprechende Texte für Kundenkommunikation und Social Media. Der Ton soll freundlich, professionell und vertrauenswürdig sein.",
+      "examples": [
+        "Facebook-Post: Unser Team kümmert sich um deinen stressfreien Umzug!",
+        "LinkedIn-Beitrag: Professionelle Möbelmontage für Geschäftskunden",
+        "Instagram-Caption: Dein Umzug in sicheren Händen 🚛✨"
+      ]
+    },
+    "publish_agent": {
+      "task": "Plane Veröffentlichungen auf Website, LinkedIn, Facebook und Instagram. Empfiehl, wann und wie Inhalte am besten publiziert werden.",
+      "examples": [
+        "Montags Blogpost veröffentlichen, mittwochs Social Media Crosspost",
+        "LinkedIn für Geschäftskunden, Instagram für Bilder"
+      ]
+    },
+    "analytics_agent": {
+      "task": "Analysiere Content-Ideen und Designs: wie wirken sie, welche Reichweite können sie erzielen, welche Plattform passt am besten?",
+      "examples": [
+        "Welcher Social Media Kanal ist am besten für Umzugstipps?",
+        "SEO-Optimierung für Möbeltransporte in Hannover"
+      ]
+    }
+  },
+
+  "platforms": [
+    "website",
+    "linkedin",
+    "instagram",
+    "facebook"
+  ]
+}

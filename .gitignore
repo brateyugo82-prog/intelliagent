@@ -1,0 +1,39 @@
+# =============== Python ===============
+__pycache__/
+*.pyc
+.venv/
+*.log
+
+# =============== Node / Next.js ===============
+node_modules/
+.next/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =============== Logs & Reports ===============
+logs/
+reports/
+
+# =============== Client-Outputs & Assets ===============
+backend/clients/*/output/
+backend/clients/*/assets/
+
+# =============== Environment Files ===============
+.env
+.env.*
+backend/clients/*/.env
+frontend-app/.env*
+frontend-app/.env.local
+
+# =============== Editor / IDE ===============
+.DS_Store
+.vscode/
+.idea/
+
+# =============== Wichtig: NICHT ignorieren ===============
+!frontend-app/
+!frontend-app/**
+# ignore large generated files
+*.zip

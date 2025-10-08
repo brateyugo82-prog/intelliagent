@@ -1,0 +1,16 @@
+{
+  "entries": [
+    {
+      "hash": "727575da6d0be2891ac4c92310bbe4c68456f263421e21a7b05f5b774807adf9",
+      "text_preview": "publish:mtm_client:website:",
+      "timestamp": "2025-10-07T13:11:17.838467",
+      "meta": {
+        "agent": "publish_agent",
+        "timestamp": "2025-10-07T13:11:17.838401",
+        "platforms": [
+          "website"
+        ]
+      }
+    }
+  ]
+}
