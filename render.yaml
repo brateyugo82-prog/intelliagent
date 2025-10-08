@@ -1,14 +1,19 @@
 services:
   - type: web
-    name: multi-agent-backend
+    name: intelliagentsolutions-backend
     env: python
     plan: starter
-    rootDir: backend
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "uvicorn core.main:app --host 0.0.0.0 --port 10000"
+    region: frankfurt
+
+    # Wichtig: im backend-Ordner arbeiten
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn api.meta.webhook:app --host 0.0.0.0 --port 10000
+
     envVars:
-      - key: ENV
-        value: production
+      - key: PORT
+        value: 10000
+      - key: META_VERIFY_TOKEN
+        value: intelliagent_webhook
+
     autoDeploy: true
     branch: main
-    healthCheckPath: /
