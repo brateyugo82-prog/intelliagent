@@ -18,10 +18,11 @@ VERIFY_TOKEN = os.getenv("META_VERIFY_TOKEN", "intelliagent_webhook")
 BACKEND_WEBHOOK_TARGET = os.getenv("BACKEND_WEBHOOK_TARGET", "http://localhost:8000/meta_events")
 
 # ===== Root Endpoint für Render Health-Check =====
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 async def root():
     """
     Root-Endpoint, damit Render und andere Health-Checks 200 OK erhalten.
+    Akzeptiert GET und HEAD, um 405 zu vermeiden.
     """
     return {
         "status": "ok",
