@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: intelliagentsolutions-backend
+    name: intelliagent-backend
     env: python
     plan: starter
     region: frankfurt
@@ -18,7 +18,7 @@ services:
         value: intelliagent_webhook
 
   - type: worker
-    name: token-scheduler
+    name: intelliagent-scheduler
     env: python
     plan: starter
     region: frankfurt
