@@ -4,11 +4,12 @@ services:
     env: python
     plan: starter
     region: frankfurt
-
-    rootDir: backend  # <– jetzt korrekt: Render wechselt automatisch in /backend
+    rootDir: backend
+    autoDeploy: true
+    branch: main
 
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "uvicorn backend.api.meta.webhook:app --host 0.0.0.0 --port 10000"
+    startCommand: "uvicorn api.meta.webhook:app --host 0.0.0.0 --port 10000"
 
     envVars:
       - key: PORT
@@ -16,5 +17,14 @@ services:
       - key: META_VERIFY_TOKEN
         value: intelliagent_webhook
 
+  - type: worker
+    name: token-scheduler
+    env: python
+    plan: starter
+    region: frankfurt
+    rootDir: backend
     autoDeploy: true
     branch: main
+
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python scheduler.py"

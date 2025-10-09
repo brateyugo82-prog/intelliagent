@@ -17,7 +17,7 @@ app = FastAPI(title="Meta Webhook API", version="1.0")
 VERIFY_TOKEN = os.getenv("META_VERIFY_TOKEN", "intelliagent_webhook")
 BACKEND_WEBHOOK_TARGET = os.getenv("BACKEND_WEBHOOK_TARGET", "http://localhost:8000/meta_events")
 
-@app.get("/")
+@app.get("/meta/webhook")
 async def verify_webhook(request: Request):
     """
     Wird von Meta beim Einrichten des Webhooks aufgerufen.
@@ -35,7 +35,7 @@ async def verify_webhook(request: Request):
         return PlainTextResponse("Verification failed", status_code=403)
 
 
-@app.post("/")
+@app.post("/meta/webhook")
 async def receive_webhook(request: Request):
     """
     Empfängt Events von Meta (z. B. neue Kommentare, Nachrichten, Posts)
