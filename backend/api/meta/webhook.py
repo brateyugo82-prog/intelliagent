@@ -17,6 +17,18 @@ app = FastAPI(title="Meta Webhook API", version="1.0")
 VERIFY_TOKEN = os.getenv("META_VERIFY_TOKEN", "intelliagent_webhook")
 BACKEND_WEBHOOK_TARGET = os.getenv("BACKEND_WEBHOOK_TARGET", "http://localhost:8000/meta_events")
 
+# ===== Root Endpoint für Render Health-Check =====
+@app.get("/")
+async def root():
+    """
+    Root-Endpoint, damit Render und andere Health-Checks 200 OK erhalten.
+    """
+    return {
+        "status": "ok",
+        "service": "IntelliAgent Backend running",
+        "version": "1.0"
+    }
+
 @app.get("/meta/webhook")
 async def verify_webhook(request: Request):
     """
@@ -33,7 +45,6 @@ async def verify_webhook(request: Request):
     else:
         print("❌ Webhook-Verification fehlgeschlagen.")
         return PlainTextResponse("Verification failed", status_code=403)
-
 
 @app.post("/meta/webhook")
 async def receive_webhook(request: Request):
@@ -58,7 +69,6 @@ async def receive_webhook(request: Request):
     except Exception as e:
         print(f"❌ Fehler beim Empfangen: {e}")
         return JSONResponse({"error": str(e)}, status_code=400)
-
 
 @app.get("/health")
 async def health_check():
