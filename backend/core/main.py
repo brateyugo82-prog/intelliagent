@@ -1,107 +1,121 @@
 """
-✅ FASTAPI BACKEND ENTRY POINT (FINAL + STABLE)
-------------------------------------------------
-Verknüpft:
-- Agenten-Workflow /api/workflow/start
-- Meta-Webhook /meta/webhook
-- IntelliAgent-Pipeline /pipeline/meta_event
-- Kostenstatistik /api/stats/costs
-Render-ready & lokal via Uvicorn startbar.
+✅ FASTAPI BACKEND ENTRY POINT (STABLE)
 """
 
-import os
 from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
 
-# 🔹 interne Module
-from backend.master_agent.master import run_workflow
-from backend.core.logger import logger
-from backend.api.pipeline_manager import router as pipeline_router
-from backend.api.stats import router as stats_router   # <-- Import bleibt oben
+# ============================================================
+# 📂 BASISVERZEICHNISSE
+# ============================================================
 
-# ============================================
-# 📂 Basisverzeichnisse
-# ============================================
-BASE_DIR = Path(__file__).resolve().parents[1]  # backend/
-CLIENTS_DIR = BASE_DIR / "clients"
+CURRENT_FILE = Path(__file__).resolve()
+
+BACKEND_DIR = CURRENT_FILE
+while BACKEND_DIR.name != "backend":
+    BACKEND_DIR = BACKEND_DIR.parent
+
+CLIENTS_DIR = BACKEND_DIR / "clients"
 CLIENTS_DIR.mkdir(parents=True, exist_ok=True)
 
-# ============================================
-# ⚙️ FastAPI App
-# ============================================
-app = FastAPI(title="IntelliAgent Backend", version="2.0")
+# ============================================================
+# ⚙️ FASTAPI APP
+# ============================================================
 
-# CORS für Frontend-Kommunikation
+app = FastAPI(
+    title="IntelliAgent Backend",
+    version="2.0",
+)
+
+# ============================================================
+# STATIC FILES – EINDEUTIG & RICHTIG
+# ============================================================
+
+BASE_DIR = Path(__file__).resolve().parent.parent   # backend/
+STATIC_DIR = BASE_DIR / "clients"                  # backend/clients
+
+print("🔥 STATIC_DIR =", STATIC_DIR)
+
+app.mount(
+    "/static",
+    StaticFiles(directory=str(STATIC_DIR)),
+    name="static",
+)
+
+@app.get("/")
+def root():
+    return {"status": "ok"}
+
+
+# ============================================================
+# 🖼 STATIC FILES (WICHTIG FÜR META / IG)
+# ============================================================
+
+
+# ============================================================
+# 🌍 CORS
+# ============================================================
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3001",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Static Files (z. B. Bilder aus DesignAgent unter /static/<client>/output/*.png)
-app.mount("/static", StaticFiles(directory=str(CLIENTS_DIR)), name="static")
+# ============================================================
+# 🔹 ROUTER IMPORTS
+# ============================================================
 
-# ============================================
-# 📦 Models
-# ============================================
-class WorkflowRequest(BaseModel):
-    client: str
-    prompt: str
-    platform: str | None = None
+from api.billing import router as billing_router
+from api.dashboard import router as dashboard_router
+from api.dashboard_actions import router as dashboard_actions_router
+from api.dashboard_meta import router as dashboard_meta_router
+from api.dashboard_analytics import router as dashboard_analytics_router
+from api.dashboard_leads import router as dashboard_leads_router
 
+from api.leads import router as leads_router
+from api.leads_meta import router as leads_meta_router
+from api.stats import router as stats_router
 
-# ============================================
-# 🌐 Routes
-# ============================================
+from api.workflow import router as workflow_router
+from api.publisher import router as publisher_router
+from api.foundation_create_previews import router as foundation_previews_router
+from api.foundation_autoschedule import router as foundation_autoschedule_router
 
-@app.get("/favicon.ico", include_in_schema=False)
-async def favicon():
-    """Dummy-Favicon, um 404 zu vermeiden."""
-    icon_path = BASE_DIR / "static" / "favicon.ico"
-    if icon_path.exists():
-        return FileResponse(str(icon_path))
-    return Response(status_code=204)
+# ============================================================
+# 🧩 ROUTER REGISTRIEREN
+# ============================================================
 
+app.include_router(dashboard_router)
+app.include_router(dashboard_actions_router)
+app.include_router(dashboard_meta_router)
+app.include_router(dashboard_analytics_router)
+app.include_router(dashboard_leads_router)
+app.include_router(billing_router)
 
-@app.get("/")
-async def root():
-    """Health Check für Render."""
-    return {"status": "ok", "message": "IntelliAgent Backend läuft 🚀"}
-
-
-@app.post("/api/workflow/start")
-async def start_workflow(req: WorkflowRequest):
-    """Manueller Start eines Agenten-Workflows (z. B. per Frontend-Button)."""
-    platform = req.platform if req.platform else ""
-    result = run_workflow(req.client, req.prompt, platform)
-    return {"status": "ok", "client": req.client, "platform": platform, "result": result}
-
-
-@app.get("/api/clients")
-async def get_clients():
-    """Listet alle verfügbaren Clients mit config.json auf."""
-    clients = []
-    for entry in CLIENTS_DIR.iterdir():
-        if (entry / "config.json").is_file():
-            clients.append(entry.name)
-    return {"clients": clients}
-
-
-# ============================================
-# 🧩 Router registrieren (NACH App-Definition!)
-# ============================================
-app.include_router(pipeline_router)
+app.include_router(leads_router)
+app.include_router(leads_meta_router)
 app.include_router(stats_router)
 
-# ============================================
-# 🚀 Lokaler Start (nur für Dev)
-# ============================================
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("backend.core.main:app", host="0.0.0.0", port=8000, reload=True)
+app.include_router(workflow_router)
+app.include_router(publisher_router)
+
+app.include_router(foundation_previews_router)
+app.include_router(foundation_autoschedule_router)
+
+# ============================================================
+# 🌐 HEALTH
+# ============================================================
+
+@app.get("/")
+def root():
+    return {"status": "ok"}

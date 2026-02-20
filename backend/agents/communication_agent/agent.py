@@ -1,94 +1,98 @@
-"""
-Communication Agent: Formuliert kurze, plattformgerechte Texte
-für Social Media oder Kundenkommunikation.
-Verwendet globalen OpenAI-Key (Mark) und nutzt memory.py, um doppelte Prompts zu vermeiden.
-"""
-
+import json
+import random
+from pathlib import Path
 from typing import Dict, Any
-from backend.core.config import get_openai_key
-from backend.core.logger import logger
-from backend.core import memory
 
-try:
-    from openai import OpenAI
-except ImportError:
-    OpenAI = None
-    logger.error("openai-Paket nicht installiert. Bitte 'pip install openai'.")
+from core.logger import logger
 
 
-def run(prompt: str, task: str = None, platform: str = None, client: str = None) -> Dict[str, Any]:
-    """
-    Generiert kurze, plattformgerechte Social-Media-Texte (TikTok, Instagram, Facebook, LinkedIn)
-    und vermeidet doppelte Themen durch Kunden-spezifisches Memory.
-    """
-    if not task:
-        task = "Formuliere Kundenkommunikation"
-    if not client:
-        client = "unbekannt"
+# -------------------------------------------------
+# 📁 Pfade
+# -------------------------------------------------
+BASE_DIR = Path(__file__).resolve().parents[2]  # backend/
+CLIENTS_DIR = BASE_DIR / "clients"
 
-    # 🧠 Prüfen, ob das Thema schon existiert
-    if memory.already_seen(client, prompt):
-        logger.info(f"[CommunicationAgent] Duplicate Prompt für {client}, übersprungen.")
-        return {"status": "skipped", "reason": "duplicate"}
 
-    # Prompt für GPT
-    full_prompt = f"""
-Du bist CommunicationAgent für den Kunden {client}.
-Erstelle jeweils kurze Texte für diese Plattformen:
-- TikTok: locker, mit Emojis, max. 2 Sätze + 2 Hashtags
-- Instagram: freundlich, ästhetisch, max. 3 Sätze + 3 Hashtags
-- Facebook: informativ, vertrauenswürdig, max. 4 Sätze + 2 Hashtags
-- LinkedIn: professionell, seriös, max. 4 Sätze + 2 Hashtags
-
-Thema: {prompt}
-
-Antworte im JSON-Format mit den Feldern:
-{{
-  "tiktok": "...",
-  "instagram": "...",
-  "facebook": "...",
-  "linkedin": "..."
-}}
-"""
-
-    logger.info(f"[CommunicationAgent] Prompt an OpenAI: {full_prompt}")
-
-    # 🔑 Globalen Key abrufen
-    openai_key = get_openai_key()
-
-    if not openai_key or openai_key == "DUMMY_KEY":
-        logger.error("[CommunicationAgent] Kein gültiger OpenAI API-Key gefunden!")
-        return {"error": "OpenAI API-Key fehlt oder ungültig."}
-
-    if OpenAI is None:
-        return {"error": "openai-Paket nicht installiert."}
-
-    # 🚀 Anfrage an GPT
+# -------------------------------------------------
+# 🔧 Helper
+# -------------------------------------------------
+def _load_json(path: Path) -> dict | list:
+    if not path.exists():
+        return {}
     try:
-        client_openai = OpenAI(api_key=openai_key)
-        resp = client_openai.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "system", "content": full_prompt}],
-            max_tokens=600
-        )
-
-        if not resp or not resp.choices:
-            logger.error("[CommunicationAgent] Keine Antwort von OpenAI erhalten.")
-            return {"error": "Keine Antwort von OpenAI erhalten."}
-
-        answer = resp.choices[0].message.content.strip()
-        logger.info(f"[CommunicationAgent] Antwort erhalten: {answer[:120]}...")
-
-        # 🧠 Speichern im Gedächtnis
-        memory.remember(client, prompt, {"agent": "communication_agent", "output": answer})
-
-        return {
-            "status": "ok",
-            "output": answer,
-            "task": task,
-            "client": client
-        }
-
+        return json.loads(path.read_text(encoding="utf-8"))
     except Exception as e:
-        logger.error(f"[CommunicationAgent] Fehler: {e}")
-        return {"error": str(e)}
+        logger.warning(f"[CommunicationAgent] JSON fehlerhaft: {path} – {e}")
+        return {}
+
+
+def _pick_random(value):
+    if isinstance(value, list):
+        return random.choice(value) if value else ""
+    return value or ""
+
+
+# -------------------------------------------------
+# 🧠 MAIN
+# -------------------------------------------------
+def run(
+    prompt: str = "",
+    platform: str = "",
+    client: str = "",
+    context: Dict[str, Any] | None = None,
+) -> Dict[str, Any]:
+    """
+    🔒 HARD RULES:
+    - KEINE Text-Generierung
+    - NUR slogans.json + ctas.json
+    """
+
+    context = context or {}
+    category = context.get("image_context")
+
+    if not client or not category:
+        logger.warning("[CommunicationAgent] client oder category fehlt")
+        return {"output": {"text": "", "cta": "", "hashtags": []}}
+
+    base_path = CLIENTS_DIR / client / "slogans" / category
+
+    slogans_path = base_path / "slogans.json"
+    ctas_path = base_path / "ctas.json"
+
+    slogans_data = _load_json(slogans_path)
+    ctas_data = _load_json(ctas_path)
+
+    # -------------------------------------------------
+    # 🧩 TEXT
+    # -------------------------------------------------
+    text = ""
+    if isinstance(slogans_data, dict):
+        text = _pick_random(slogans_data.get("slogans", []))
+    elif isinstance(slogans_data, list):
+        text = _pick_random(slogans_data)
+
+    # -------------------------------------------------
+    # 🧩 CTA
+    # -------------------------------------------------
+    cta = ""
+    if isinstance(ctas_data, dict):
+        cta = _pick_random(ctas_data.get("ctas", []))
+    elif isinstance(ctas_data, list):
+        cta = _pick_random(ctas_data)
+
+    # -------------------------------------------------
+    # ❌ KEINE HASHTAGS (optional später)
+    # -------------------------------------------------
+    hashtags = []
+
+    logger.info(
+        f"[CommunicationAgent] OK | client={client} | category={category} | platform={platform}"
+    )
+
+    return {
+        "output": {
+            "text": text,
+            "cta": cta,
+            "hashtags": hashtags,
+        }
+    }

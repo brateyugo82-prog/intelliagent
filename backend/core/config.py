@@ -6,7 +6,7 @@ und stellt eine Utility-Funktion bereit, um pro Kunde oder global den richtigen 
 
 import os
 from dotenv import load_dotenv
-from backend.core.logger import logger
+from core.logger import logger
 
 # 🔧 Lade globale .env aus dem Backend-Root
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

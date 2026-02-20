@@ -3,17 +3,17 @@ import importlib
 import sys
 
 def test_imports():
-    import backend.core.main
-    import backend.master_agent.master
-    import backend.agents.content_agent.agent
-    import backend.agents.design_agent.agent
-    import backend.agents.publish_agent.agent
-    import backend.agents.analytics_agent.agent
-    import backend.agents.communication_agent.agent
+    import core.main
+    import master_agent.master
+    import agents.content_agent.agent
+    import agents.design_agent.agent
+    import agents.publish_agent.agent
+    import agents.analytics_agent.agent
+    import agents.communication_agent.agent
     print("[OK] All modules imported.")
 
 def test_run_workflow():
-    from backend.master_agent import master
+    from master_agent import master
     # Simulierter Testlauf (ohne echten OpenAI-Call)
     result = master.run_workflow("mtm", "ping", "website")
     assert isinstance(result, dict)

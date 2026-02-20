@@ -1,11 +1,11 @@
 # Hinweis: Absolute Imports (backend.*) für Render + lokale Uvicorn-Kompatibilität
 import pytest
 import json
-from backend.agents.content_agent import agent as content_agent
-from backend.agents.design_agent import agent as design_agent
-from backend.agents.publish_agent import agent as publish_agent
-from backend.agents.analytics_agent import agent as analytics_agent
-from backend.agents.communication_agent import agent as communication_agent
+from agents.content_agent import agent as content_agent
+from agents.design_agent import agent as design_agent
+from agents.publish_agent import agent as publish_agent
+from agents.analytics_agent import agent as analytics_agent
+from agents.communication_agent import agent as communication_agent
 
 def test_content_agent():
     result = content_agent.run(prompt="test", client="test")

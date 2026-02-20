@@ -4,5 +4,6 @@ python-dotenv
 requests
 httpx
 pydantic
-openai
+numpy
 pillow
+openaireportlab==4.4.5

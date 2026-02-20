@@ -1,63 +1,99 @@
-"""
-✅ FINAL VERSION – IntelliAgent Kosten-Analytics (OpenAI + Render)
-----------------------------------------------------------------
-Zeigt geschätzte monatliche Betriebskosten deiner Agenten-Pipeline an.
-- OpenAI-Kosten (nach Anzahl Prompts)
-- Render-Kosten (Plan-basiert)
-- Domainkosten (optional fix)
-"""
-
 from fastapi import APIRouter
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
-import json
-import os
 
-router = APIRouter(prefix="/api/stats", tags=["System Stats"])
+router = APIRouter(prefix="/api/stats", tags=["Stats"])
 
-# Basispreise
-OPENAI_PRICE_PER_PROMPT = 0.00015 * 1000  # ~0.15 € pro 1000 Prompts
-RENDER_STARTER_PLAN = 7.00  # €/Monat
-DOMAIN_COST = 1.00  # €/Monat
+# ============================================================
+# 🔐 TOKEN FILES (relativ zum backend/)
+# ============================================================
 
-LOG_FILE = Path("backend/logs/meta_events.json")
+BACKEND_DIR = Path(__file__).resolve()
+while BACKEND_DIR.name != "backend":
+    BACKEND_DIR = BACKEND_DIR.parent
+
+TOKEN_FILES = {
+    "meta": BACKEND_DIR / "scheduler" / "meta_token.txt",
+    "linkedin": BACKEND_DIR / "scheduler" / "linkedin_token.txt",
+    "tiktok": BACKEND_DIR / "scheduler" / "tiktok_token.txt",
+}
+
+REFRESH_INTERVAL_DAYS = 60
 
 
-@router.get("/costs")
-async def get_cost_estimate():
-    """
-    Gibt eine monatliche Kostenschätzung zurück basierend auf:
-    - Anzahl gespeicherter Events in logs/meta_events.json
-    - Durchschnittlicher Prompt-Nutzung
-    - Render + Domain Fixkosten
-    """
-    total_events = 0
-    total_prompts = 0
+def token_status(platform: str, file_path: Path):
+    if not file_path.exists():
+        return {
+            "platform": platform,
+            "status": "missing",
+            "last_refresh": None,
+            "next_refresh": None,
+        }
 
-    if LOG_FILE.exists():
-        with open(LOG_FILE, "r", encoding="utf-8") as f:
-            for line in f:
-                try:
-                    entry = json.loads(line.strip())
-                    total_events += 1
-                except json.JSONDecodeError:
-                    continue
-
-    # Schätzung: 1 Event = 3 Prompts (Communication + Publish + Analytics)
-    total_prompts = total_events * 3
-
-    # OpenAI-Kosten (sehr konservativ)
-    openai_costs = round(total_prompts * 0.0015, 2)  # ca. 0.15€ / 100 Prompts
-
-    total_costs = openai_costs + RENDER_STARTER_PLAN + DOMAIN_COST
+    mtime = datetime.fromtimestamp(file_path.stat().st_mtime)
+    next_refresh = mtime + timedelta(days=REFRESH_INTERVAL_DAYS)
 
     return {
-        "timestamp": datetime.now().isoformat(),
-        "events_tracked": total_events,
-        "estimated_prompts": total_prompts,
-        "openai_costs_eur": openai_costs,
-        "render_costs_eur": RENDER_STARTER_PLAN,
-        "domain_costs_eur": DOMAIN_COST,
-        "total_estimated_costs_eur": total_costs,
-        "note": "Diese Werte sind Schätzungen basierend auf Nutzung und Logs."
+        "platform": platform,
+        "status": "ok" if datetime.now() < next_refresh else "expired",
+        "last_refresh": mtime.isoformat(),
+        "next_refresh": next_refresh.isoformat(),
+    }
+
+
+@router.get("/tokens")
+async def get_token_status():
+    return {
+        "tokens": [
+            token_status(platform, path)
+            for platform, path in TOKEN_FILES.items()
+        ]
+    }
+
+# ============================================================
+# 📊 LEAD STATS
+# ============================================================
+
+from core.lead_store import list_leads
+
+@router.get("/leads/summary")
+async def lead_summary(period: str = "30d"):
+    """
+    Lead Analytics Summary
+    period: 1d | 7d | 30d
+    """
+
+    days_map = {
+        "1d": 1,
+        "7d": 7,
+        "30d": 30,
+    }
+    days = days_map.get(period, 30)
+    since = datetime.utcnow() - timedelta(days=days)
+
+    leads = list_leads()
+    
+    filtered = [
+        l for l in leads
+        if datetime.fromisoformat(l["created_at"]) >= since
+    ]
+    
+    total = len(filtered)
+    
+    by_status = {}
+    for l in filtered:
+        status = l.get("status", "unknown")
+        by_status[status] = by_status.get(status, 0) + 1
+    
+    by_source = {}
+    for l in filtered:
+        source = l.get("parsed", {}).get("source", "unknown")
+        by_source[source] = by_source.get(source, 0) + 1
+
+    return {
+        "period": period,
+        "since": since.isoformat(),
+        "total": total,
+        "by_status": by_status,
+        "by_source": by_source,
     }

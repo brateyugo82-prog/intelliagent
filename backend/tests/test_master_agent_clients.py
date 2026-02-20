@@ -3,7 +3,7 @@ import os
 import json
 import shutil
 import tempfile
-from backend.master_agent import master
+from master_agent import master
 from dotenv import dotenv_values
 
 def setup_client(tmpdir, env_vars=None, config=None):

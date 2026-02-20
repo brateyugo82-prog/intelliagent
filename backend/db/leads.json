@@ -1,0 +1,32 @@
+[
+  {
+    "id": "lead_1",
+    "client": "mtm_client",
+    "raw_text": "Test Umzug Hannover",
+    "parsed": {
+      "source": "manual_test",
+      "intent": "umzug"
+    },
+    "status": "converted",
+    "created_at": "2026-02-19T14:59:54.440965+00:00",
+    "updated_at": "2026-02-19T15:50:55.552731+00:00",
+    "fingerprint": "9cd6dfd219bfe5cb9eeee53ab8b23f49c8ea571f8b317661873ec473a68db6f4"
+  },
+  {
+    "id": "lead_2",
+    "client": "mtm_client",
+    "raw_text": "Hallo, ich brauche einen Umzug in Hannover. Tel 0176 12345678",
+    "parsed": {
+      "raw_text": "Hallo, ich brauche einen Umzug in Hannover. Tel 0176 12345678",
+      "services": [
+        "umzug"
+      ],
+      "has_phone": false,
+      "is_relevant_service": true
+    },
+    "status": "qualified",
+    "created_at": "2026-02-19T15:30:01.028510+00:00",
+    "updated_at": "2026-02-19T15:35:06.436532+00:00",
+    "fingerprint": "6a409b551f1a46c6bac4ade12d7ffac730dbcde81518d3722a054f7018cc30cd"
+  }
+]

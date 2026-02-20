@@ -3,7 +3,7 @@ import importlib
 import pkgutil
 import os
 import json
-from backend.master_agent import master
+from master_agent import master
 
 def test_all_agents_return_dict():
     agents_path = os.path.join(os.path.dirname(__file__), '../agents')

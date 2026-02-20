@@ -1,14 +1,28 @@
-import json
-from utils.meta_api import upload_product_to_meta
+import os
+import requests
 
-def publish_mtm_catalog():
-    catalog_path = "backend/clients/mtm_client/output/catalog/mtm_catalog.json"
-    
-    with open(catalog_path, "r", encoding="utf-8") as f:
-        products = json.load(f)
-    
-    for product in products:
-        upload_product_to_meta(product)
 
-if __name__ == "__main__":
-    publish_mtm_catalog()
+def post_to_facebook(message: str) -> dict:
+    """
+    Postet einen Text-Post auf eine Facebook Page
+    """
+    page_id = os.getenv("META_PAGE_ID")
+    token = os.getenv("META_PAGE_TOKEN")
+    version = os.getenv("META_API_VERSION", "v24.0")
+
+    if not page_id or not token:
+        raise RuntimeError("META_PAGE_ID oder META_PAGE_TOKEN fehlt")
+
+    url = f"https://graph.facebook.com/{version}/{page_id}/feed"
+
+    r = requests.post(
+        url,
+        data={
+            "message": message,
+            "access_token": token,
+        },
+        timeout=10,
+    )
+
+    r.raise_for_status()
+    return r.json()
