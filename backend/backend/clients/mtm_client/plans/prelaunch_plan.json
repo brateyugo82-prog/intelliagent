@@ -1,0 +1,35 @@
+
+{
+
+  "day_1": {
+
+    "instagram": ["fp_01", "fp_02", "fp_05"],
+
+    "facebook": ["fp_01", "fp_02", "fp_05"],
+
+    "linkedin": ["fp_01"]
+
+  },
+
+  "day_2": {
+
+    "instagram": ["fp_03", "fp_04", "tr_01"],
+
+    "facebook": ["fp_03", "fp_04", "tr_01"],
+
+    "linkedin": ["fp_03", "fp_02"]
+
+  },
+
+  "day_3": {
+
+    "instagram": ["fp_06", "sv_01", "tr_02"],
+
+    "facebook": ["fp_06", "sv_01", "tr_02"],
+
+    "linkedin": ["fp_04"]
+
+  }
+
+}
+

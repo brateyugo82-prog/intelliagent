@@ -1,0 +1,198 @@
+[
+  {
+    "id": "lead_1",
+    "client": "mtm_client",
+    "raw_text": "Test Umzug Hannover",
+    "parsed": {
+      "source": "manual_test",
+      "intent": "umzug"
+    },
+    "status": "contacted",
+    "created_at": "2026-02-19T14:59:54.440965+00:00",
+    "updated_at": "2026-02-25T20:51:20.441373+00:00",
+    "fingerprint": "9cd6dfd219bfe5cb9eeee53ab8b23f49c8ea571f8b317661873ec473a68db6f4"
+  },
+  {
+    "id": "lead_2",
+    "client": "mtm_client",
+    "raw_text": "Hallo, ich brauche einen Umzug in Hannover. Tel 0176 12345678",
+    "parsed": {
+      "raw_text": "Hallo, ich brauche einen Umzug in Hannover. Tel 0176 12345678",
+      "services": [
+        "umzug"
+      ],
+      "has_phone": false,
+      "is_relevant_service": true
+    },
+    "status": "new",
+    "created_at": "2026-02-19T15:30:01.028510+00:00",
+    "updated_at": "2026-02-25T20:51:18.195311+00:00",
+    "fingerprint": "6a409b551f1a46c6bac4ade12d7ffac730dbcde81518d3722a054f7018cc30cd"
+  },
+  {
+    "id": "lead_3",
+    "client": "mtm_client",
+    "raw_text": "Umzug 3 Zimmer Hannover – bitte Rückruf",
+    "parsed": {
+      "phone": "0176000000"
+    },
+    "status": "raw",
+    "created_at": "2026-02-25T19:18:57.530191+00:00",
+    "updated_at": "2026-02-25T19:18:57.530581+00:00",
+    "fingerprint": "0376ceee087af7cf4185c93a602e3148a17bcc449cea3f2f9e0ca54c181526a6"
+  },
+  {
+    "id": "lead_4",
+    "client": "mtm_client",
+    "raw_text": "TEST FORMULAR UMZUG HANNOVER",
+    "parsed": {
+      "source": "contact_form",
+      "platform": "website",
+      "name": "Form Test",
+      "email": "test@test.de",
+      "phone": "01761234567",
+      "message": "TEST FORMULAR UMZUG HANNOVER",
+      "post_id": null
+    },
+    "status": "raw",
+    "created_at": "2026-02-25T20:02:46.640986+00:00",
+    "updated_at": "2026-02-25T20:02:46.641004+00:00",
+    "fingerprint": "9f8bc6b774b61529b659da2903a458b1522c65b5adf944275b390575ac4cc9ca"
+  },
+  {
+    "id": "lead_5",
+    "client": "mtm_client",
+    "raw_text": "IG DM TEST – Umzug Hannover 3 Zimmer",
+    "parsed": {
+      "source": "meta_dm",
+      "platform": "instagram_or_facebook",
+      "raw": {
+        "entry": [
+          {
+            "messaging": [
+              {
+                "message": {
+                  "text": "IG DM TEST – Umzug Hannover 3 Zimmer"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "status": "contacted",
+    "created_at": "2026-02-25T20:37:29.528379+00:00",
+    "updated_at": "2026-02-25T21:16:04.137845+00:00",
+    "fingerprint": "02eca5fde40f638476372a1fcdd111475e5765c79daf8a69471a01ff9da85312"
+  },
+  {
+    "id": "lead_6",
+    "client": "mtm_client",
+    "raw_text": "IG DM TEST – Umzug Hannover 3 Zimmer",
+    "parsed": {
+      "source": "meta_dm",
+      "platform": "instagram_or_facebook",
+      "raw": {
+        "entry": [
+          {
+            "messaging": [
+              {
+                "sender": {
+                  "id": "123"
+                },
+                "message": {
+                  "text": "IG DM TEST – Umzug Hannover 3 Zimmer"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "status": "raw",
+    "created_at": "2026-02-25T20:39:43.815035+00:00",
+    "updated_at": "2026-02-25T20:39:43.815117+00:00",
+    "fingerprint": "02eca5fde40f638476372a1fcdd111475e5765c79daf8a69471a01ff9da85312"
+  },
+  {
+    "id": "lead_7",
+    "client": "mtm_client",
+    "raw_text": "Hallo, ich brauche einen Umzug in Hannover",
+    "parsed": {
+      "source": "meta_dm",
+      "platform": "instagram_or_facebook",
+      "raw": {
+        "entry": [
+          {
+            "messaging": [
+              {
+                "sender": {
+                  "id": "customer123"
+                },
+                "message": {
+                  "text": "Hallo, ich brauche einen Umzug in Hannover"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "status": "qualified",
+    "created_at": "2026-02-25T21:01:20.556496+00:00",
+    "updated_at": "2026-02-25T21:01:20.556512+00:00",
+    "fingerprint": "14e02bea487d5de58ded600dd3cc23b965667ff82ce78d027e0f2b9848d68ace"
+  },
+  {
+    "id": "lead_8",
+    "client": "mtm_client",
+    "raw_text": "IG DM TEST – Umzug Hannover",
+    "parsed": {
+      "source": "meta_dm",
+      "platform": "instagram_or_facebook",
+      "raw": {
+        "entry": [
+          {
+            "messaging": [
+              {
+                "message": {
+                  "text": "IG DM TEST – Umzug Hannover"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "status": "qualified",
+    "created_at": "2026-02-25T21:03:22.035493+00:00",
+    "updated_at": "2026-02-25T21:03:22.035655+00:00",
+    "fingerprint": "4a60a39aa3898915daad35a6a1d336ea32bef47d1e29e184f222134c2c7e7cf8"
+  },
+  {
+    "id": "lead_9",
+    "client": "mtm_client",
+    "raw_text": "LIVE FINAL TEST – Umzug Hannover",
+    "parsed": {
+      "source": "meta_dm",
+      "platform": "instagram_or_facebook",
+      "raw": {
+        "entry": [
+          {
+            "messaging": [
+              {
+                "message": {
+                  "text": "LIVE FINAL TEST – Umzug Hannover"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "status": "qualified",
+    "created_at": "2026-02-26T09:27:37.667541+00:00",
+    "updated_at": "2026-02-26T09:27:37.667554+00:00",
+    "fingerprint": "00799d548840314d1b67fbb8632e2045d408032b9c85b7ac7d38e3e8707c4e88"
+  }
+]

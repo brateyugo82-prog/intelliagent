@@ -1,0 +1,159 @@
+from PIL import Image, ImageOps
+from pathlib import Path
+from datetime import date
+import shutil
+from backend.backend.core.logger import logger
+
+
+def trim_transparency(img: Image.Image) -> Image.Image:
+    """
+    Entfernt transparente Ränder vom Logo
+    """
+    bbox = img.getbbox()
+    if bbox:
+        return img.crop(bbox)
+    return img
+
+
+def apply_branding(
+    image_path: str,
+    brand_ctx: dict,
+    image_context: str,
+    platform: str,
+    run_date: date,
+) -> str:
+    """
+    Branding-Pipeline (FOUNDATION + WEEKLY, FINAL)
+
+    WEEKLY:
+    - Quelle: output/approved/
+    - Original → used/
+    - Kein Reuse
+
+    FOUNDATION:
+    - Quelle: assets/foundation/
+    - Original BLEIBT UNVERÄNDERT
+    - Kein used/, kein Rotate, kein Reuse
+    """
+
+    image_path = Path(image_path)
+    image_path_str = str(image_path)
+
+    # ------------------------------------------------
+    # 🔒 MODE ERKENNEN
+    # ------------------------------------------------
+    is_weekly = "/approved/" in image_path_str
+    is_foundation = "/assets/foundation/" in image_path_str
+
+    # SOURCE CHECK DISABLED
+    pass
+
+    if is_weekly and "/used/" in image_path_str:
+        raise ValueError(
+            "[BrandingRenderer] ❌ USED-Bilder dürfen NICHT erneut gebrandet werden"
+        )
+
+    mode = "FOUNDATION" if is_foundation else "WEEKLY"
+    logger.info(f"[BrandingRenderer] 🔍 Mode erkannt: {mode}")
+
+    # ------------------------------------------------
+    # 🖼 BASISBILD LADEN
+    # ------------------------------------------------
+    img = ImageOps.exif_transpose(Image.open(image_path))
+    if img.mode != "RGB":
+        img = img.convert("RGB")
+    width, height = img.size
+
+    BACKEND_ROOT = Path(__file__).resolve().parents[1]
+
+    # ------------------------------------------------
+    # 🎨 LOGO-PFAD
+    # ------------------------------------------------
+    logo_path = (
+        BACKEND_ROOT
+        / "clients"
+        / brand_ctx["client_name"]
+        / "branding"
+        / "logo.png"
+    )
+
+    if not logo_path.exists():
+        logger.error(f"[BrandingRenderer] ❌ Logo fehlt: {logo_path}")
+        raise FileNotFoundError(logo_path)
+
+    
+    # ------------------------------------------------
+    # 🧼 LOGO LADEN (BANNER, FULL WIDTH)
+    # ------------------------------------------------
+    logo = Image.open(logo_path).convert("RGBA")
+
+    # ------------------------------------------------
+    # 📐 BANNER / LOGO – VOLLE BREITE
+    # ------------------------------------------------
+    BANNER_HEIGHT = int(height * 0.10)  # exakt wie vorher
+
+    logo = logo.resize(
+        (width, BANNER_HEIGHT),
+        Image.LANCZOS,
+    )
+
+    # ------------------------------------------------
+    # 📍 POSITION – UNTEN, LINKS → RECHTS
+    # ------------------------------------------------
+    x = 0
+    y = height - BANNER_HEIGHT
+
+    img.paste(logo, (x, y), logo)
+
+
+    # ------------------------------------------------
+    # 💾 OUTPUT
+    # ------------------------------------------------
+    # ------------------------------------------------
+    # 💾 OUTPUT (IMAGES → PREVIEW)
+    # ------------------------------------------------
+    if "/images/" in image_path_str:
+        output_dir = (
+            BACKEND_ROOT
+            / "clients"
+            / brand_ctx["client_name"]
+            / "output"
+            / "preview"
+        )
+    else:
+        output_dir = (
+            BACKEND_ROOT
+            / "clients"
+            / brand_ctx["client_name"]
+            / "output"
+            / "branded"
+            / run_date.isoformat()
+            / platform
+        )
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    branded_path = output_dir / image_path.name
+
+    img.save(branded_path, "JPEG", quality=95, subsampling=0)
+
+    logger.info(f"[BrandingRenderer] ✅ Branding gespeichert → {branded_path}")
+
+    # ------------------------------------------------
+    # 📦 NUR WEEKLY → ORIGINAL NACH used/
+    # ------------------------------------------------
+    if is_weekly:
+        used_dir = image_path.parent / "used"
+        used_dir.mkdir(exist_ok=True)
+
+        target_used_path = used_dir / image_path.name
+        shutil.move(str(image_path), target_used_path)
+
+        logger.info(
+            f"[BrandingRenderer] 📦 WEEKLY Original verschoben → {target_used_path}"
+        )
+    else:
+        logger.info(
+            "[BrandingRenderer] 🔒 FOUNDATION Bild bleibt unverändert (kein used/)"
+        )
+
+    return str(branded_path)

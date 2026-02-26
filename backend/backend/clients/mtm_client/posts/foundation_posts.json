@@ -1,0 +1,58 @@
+[
+  {
+    "id": "fp_01",
+    "type": "foundation",
+    "image": "foundation/fp_01.jpg",
+    "platforms": ["instagram", "facebook", "linkedin"]
+  },
+  {
+    "id": "fp_02",
+    "type": "foundation",
+    "image": "foundation/fp_02.jpg",
+    "platforms": ["instagram", "facebook", "linkedin"]
+  },
+  {
+    "id": "fp_03",
+    "type": "foundation",
+    "image": "foundation/fp_03.jpg",
+    "platforms": ["instagram", "facebook", "linkedin"]
+  },
+  {
+    "id": "fp_04",
+    "type": "foundation",
+    "image": "foundation/fp_04.jpg",
+    "platforms": ["instagram", "facebook", "linkedin"]
+  },
+  {
+    "id": "fp_05",
+    "type": "foundation",
+    "image": "foundation/fp_05.jpg",
+    "platforms": ["instagram", "facebook", "linkedin"]
+  },
+  {
+    "id": "fp_06",
+    "type": "foundation",
+    "image": "foundation/fp_06.jpg",
+    "platforms": ["instagram", "facebook", "linkedin"]
+  },
+
+  {
+    "id": "sv_01",
+    "type": "service",
+    "image": "foundation/sv_01.jpg",
+    "platforms": ["instagram", "facebook"]
+  },
+
+  {
+    "id": "tr_01",
+    "type": "trust",
+    "image": "foundation/tr_01.jpg",
+    "platforms": ["instagram", "facebook", "linkedin"]
+  },
+  {
+    "id": "tr_02",
+    "type": "trust",
+    "image": "foundation/tr_02.jpg",
+    "platforms": ["instagram", "facebook", "linkedin"]
+  }
+]

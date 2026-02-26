@@ -1,0 +1,77 @@
+from pathlib import Path
+from PIL import Image
+import re
+import hashlib
+
+CLIENT = "mtm_client"
+BASE = Path(__file__).resolve().parents[1]
+
+IMAGES = BASE / "clients" / CLIENT / "images"
+PREVIEW = BASE / "clients" / CLIENT / "output" / "preview"
+LOGO = BASE / "clients" / CLIENT / "branding" / "logo.png"
+
+# Deine Vorgabe:
+# processdetails = trust
+# workaction     = lead
+# finishedwork   = service
+# teamvehicle    = soft
+FOLDER_TO_CONTENT = {
+    "processdetails": "trust",
+    "workaction": "lead",
+    "finishedwork": "service",
+    "teamvehicle": "soft",
+}
+
+def slug(s: str) -> str:
+    s = s.lower().strip()
+    s = re.sub(r"\s+", "_", s)
+    s = re.sub(r"[^a-z0-9_]+", "", s)
+    return s[:60] if s else "img"
+
+def apply_logo(img: Image.Image, logo: Image.Image) -> Image.Image:
+    base = img.convert("RGBA")
+    bw, bh = base.size
+
+    l = logo.convert("RGBA")
+    target_w = int(bw * 0.18)
+    ratio = target_w / l.size[0]
+    l = l.resize((target_w, int(l.size[1] * ratio)), Image.LANCZOS)
+
+    padding = 40
+    x = bw - l.size[0] - padding
+    y = bh - l.size[1] - padding
+    base.alpha_composite(l, (x, y))
+    return base
+
+def run():
+    PREVIEW.mkdir(parents=True, exist_ok=True)
+    if not LOGO.exists():
+        raise FileNotFoundError(f"Logo fehlt: {LOGO}")
+
+    logo = Image.open(LOGO)
+
+    for folder, content_cat in FOLDER_TO_CONTENT.items():
+        src_dir = IMAGES / folder
+        if not src_dir.exists():
+            continue
+
+        for p in src_dir.iterdir():
+            if p.suffix.lower() not in (".png", ".jpg", ".jpeg"):
+                continue
+
+            # post_id stabil + eindeutig (name egal)
+            h = hashlib.md5(str(p).encode("utf-8")).hexdigest()[:8]
+            post_id = f"wk_{content_cat}_{slug(p.stem)}_{h}"
+
+            out_path = PREVIEW / f"{post_id}.png"
+            if out_path.exists():
+                continue
+
+            img = Image.open(p)
+            branded = apply_logo(img, logo)
+            branded.convert("RGB").save(out_path, format="PNG")
+
+            print(f"✅ PREVIEW: {out_path.name}")
+
+if __name__ == "__main__":
+    run()

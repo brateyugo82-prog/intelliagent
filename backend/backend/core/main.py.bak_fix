@@ -1,0 +1,56 @@
+"""
+✅ FASTAPI BACKEND ENTRY POINT (STABLE)
+"""
+
+from pathlib import Path
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+CLIENTS_DIR = BASE_DIR / "clients"
+CLIENTS_DIR.mkdir(parents=True, exist_ok=True)
+
+app = FastAPI(title="IntelliAgent Backend", version="2.0")
+
+STATIC_DIR = CLIENTS_DIR
+print("🔥 STATIC_DIR =", STATIC_DIR)
+
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+from backend.backend.api.dashboard import router as dashboard_router
+from backend.backend.api.dashboard_actions import router as dashboard_actions_router
+from backend.backend.api.analytics_api import router as analytics_router
+from backend.backend.api.leads_api import router as leads_router
+
+app.include_router(dashboard_router)
+app.include_router(dashboard_actions_router)
+
+@app.get("/")
+def root():
+    return {"status": "ok"}
+
+# Analytics API
+app.include_router(analytics_router)
+# ===============================
+# 🔌 LEADS API (STUB)
+# ===============================
+from backend.backend.api.leads_api import router as leads_router
+app.include_router(leads_router)
+
+# ===============================
+# 🔁 FILESYSTEM RESYNC
+# ===============================
+from backend.backend.api.fs_sync_api import router as fs_sync_router
+app.include_router(fs_sync_router)

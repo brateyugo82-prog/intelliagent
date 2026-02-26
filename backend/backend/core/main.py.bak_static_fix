@@ -1,0 +1,105 @@
+"""
+✅ FASTAPI BACKEND ENTRY POINT (CLEAN & STABLE)
+"""
+
+from pathlib import Path
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
+
+# ============================================================
+# ⚙️ FASTAPI APP
+# ============================================================
+
+app = FastAPI(
+    title="IntelliAgent Backend",
+    version="2.0",
+)
+
+# ============================================================
+# 📂 BASISVERZEICHNISSE
+# ============================================================
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_DIR = BASE_DIR / "static"
+CLIENTS_DIR = BASE_DIR / "clients"
+
+CLIENTS_DIR.mkdir(parents=True, exist_ok=True)
+
+print("📦 Static dir:", STATIC_DIR)
+
+# ============================================================
+# 🖼 STATIC FILES  (WICHTIG FÜR META / IG)
+# ============================================================
+
+app.mount(
+    "/static",
+    StaticFiles(directory=str(STATIC_DIR)),
+    name="static",
+)
+
+# ============================================================
+# 🌍 CORS
+# ============================================================
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3001",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ============================================================
+# 🔹 ROUTER IMPORTS
+# ============================================================
+
+from backend.backend.api.billing import router as billing_router
+from backend.backend.api.dashboard import router as dashboard_router
+from backend.backend.api.dashboard_actions import router as dashboard_actions_router
+from backend.backend.api.dashboard_meta import router as dashboard_meta_router
+from backend.backend.api.dashboard_analytics import router as dashboard_analytics_router
+from backend.backend.api.dashboard_leads import router as dashboard_leads_router
+
+from backend.backend.api.leads import router as leads_router
+from backend.backend.api.leads_meta import router as leads_meta_router
+from backend.backend.api.stats import router as stats_router
+
+from backend.backend.api.workflow import router as workflow_router
+from backend.backend.api.publisher import router as publisher_router
+from backend.backend.api.foundation_create_previews import router as foundation_previews_router
+from backend.backend.api.foundation_autoschedule import router as foundation_autoschedule_router
+
+# ============================================================
+# 🧩 ROUTER REGISTRIEREN
+# ============================================================
+
+app.include_router(dashboard_router)
+app.include_router(dashboard_actions_router)
+app.include_router(dashboard_meta_router)
+app.include_router(dashboard_analytics_router)
+app.include_router(dashboard_leads_router)
+app.include_router(billing_router)
+
+app.include_router(leads_router)
+app.include_router(leads_meta_router)
+app.include_router(stats_router)
+
+app.include_router(workflow_router)
+app.include_router(publisher_router)
+
+app.include_router(foundation_previews_router)
+app.include_router(foundation_autoschedule_router)
+
+# ============================================================
+# 🌐 HEALTH
+# ============================================================
+
+@app.get("/")
+def root():
+    return {"status": "ok"}
