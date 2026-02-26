@@ -1,5 +1,5 @@
 from pathlib import Path
-from backend.backend.core.post_store import get_posts, update_post
+from core.post_store import get_posts, update_post
 
 CLIENT = "mtm_client"
 

@@ -9,7 +9,7 @@ from collections import defaultdict
 BASE_DIR = Path(__file__).resolve().parents[1]  # backend/
 sys.path.insert(0, str(BASE_DIR))
 
-from backend.backend.core.post_store import ensure_post_exists, update_post
+from core.post_store import ensure_post_exists, update_post
 
 # =================================================
 # CONFIG

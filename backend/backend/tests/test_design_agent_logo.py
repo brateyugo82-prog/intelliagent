@@ -10,7 +10,7 @@ Automatischer Test für den DesignAgent:
 
 import sys, json, os, time
 from pathlib import Path
-from backend.backend.core.logger import logger
+from core.logger import logger
 
 # 🔧 Projekt-Root hinzufügen
 ROOT_DIR = Path(__file__).resolve().parents[2]
@@ -25,7 +25,7 @@ def main():
     prompt = "Ein realistisches Foto eines MTM-Umzugs-LKWs mit zwei Handwerkern beim Tragen einer Couch."
 
     # === Pfade prüfen ===
-    from backend.backend.core.paths import CLIENTS_DIR
+    from core.paths import CLIENTS_DIR
     client_dir = CLIENTS_DIR / client
     logo_path = client_dir / "assets/logo.png"
     base_image = client_dir / "assets/flotte.png"

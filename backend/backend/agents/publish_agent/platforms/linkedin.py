@@ -1,7 +1,7 @@
 from typing import Dict, Any
 from datetime import datetime
 
-from backend.backend.core.logger import logger
+from core.logger import logger
 
 
 def publish(post: Dict[str, Any]) -> Dict[str, Any]:

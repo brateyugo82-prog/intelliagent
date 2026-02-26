@@ -2,7 +2,7 @@ from pathlib import Path
 import shutil
 
 def move_post_to_posted(client: str, post_id: str):
-    from backend.backend.core.paths import posting_queue_dir
+    from core.paths import posting_queue_dir
     base = posting_queue_dir(client).parent
     src_dirs = ["posting_queue", "scheduled", "approved"]
     dst_dir = base / "posted"

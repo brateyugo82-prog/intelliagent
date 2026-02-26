@@ -3,7 +3,7 @@ import random
 from pathlib import Path
 from typing import Dict, Any
 
-from backend.backend.core.logger import logger
+from core.logger import logger
 
 
 # -------------------------------------------------

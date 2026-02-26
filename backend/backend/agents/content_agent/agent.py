@@ -9,10 +9,10 @@
 """
 
 from typing import Dict, Any
-from backend.backend.core.config import get_openai_key
-from backend.backend.core.logger import logger
+from core.config import get_openai_key
+from core.logger import logger
 from core import memory
-from backend.backend.core.branding_loader import load_brand_context
+from core.branding_loader import load_brand_context
 
 try:
     from openai import OpenAI

@@ -11,8 +11,8 @@
 import time
 from datetime import datetime, timezone
 
-from backend.backend.core.logger import logger
-from backend.backend.core.post_store import get_posts
+from core.logger import logger
+from core.post_store import get_posts
 from agents.publish_agent.agent import publish_post
 
 POLL_INTERVAL_SECONDS = 30

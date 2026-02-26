@@ -37,3 +37,10 @@ frontend-app/.env.local
 !frontend-app/**
 # ignore large generated files
 *.zip
+
+# python cache
+__pycache__/
+*.pyc
+
+# backups
+*.bak*

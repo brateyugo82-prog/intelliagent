@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from backend.backend.core.fs_sync import sync_client
+from core.fs_sync import sync_client
 
 router = APIRouter(prefix="/api/fs", tags=["fs-sync"])
 

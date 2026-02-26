@@ -11,8 +11,8 @@
 from pathlib import Path
 from PIL import Image, ImageOps
 
-from backend.backend.core.logger import logger
-from backend.backend.core.branding_loader import load_brand_context
+from core.logger import logger
+from core.branding_loader import load_brand_context
 from agents.design_agent.rotation import get_next_image
 
 BASE_DIR = Path(__file__).resolve().parents[2]

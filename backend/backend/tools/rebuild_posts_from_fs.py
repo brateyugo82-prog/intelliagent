@@ -1,5 +1,5 @@
 from pathlib import Path
-from backend.backend.core.post_store import ensure_post_exists, update_post
+from core.post_store import ensure_post_exists, update_post
 
 CLIENT = "mtm_client"
 BASE = Path(__file__).resolve().parents[1]

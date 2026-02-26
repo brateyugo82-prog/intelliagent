@@ -10,8 +10,8 @@ from datetime import datetime
 import csv
 from pathlib import Path
 
-from backend.backend.core.logger import logger
-from backend.backend.core.config import get_openai_key
+from core.logger import logger
+from core.config import get_openai_key
 
 try:
     from openai import OpenAI

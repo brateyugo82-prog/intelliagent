@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from backend.backend.core.leads_store import (
+from core.leads_store import (
     list_leads,
     add_lead,
     update_status,
@@ -68,7 +68,7 @@ def lead_status_stats(client: str | None = None):
         }
     }
 
-from backend.backend.core.leads_store import update_status
+from core.leads_store import update_status
 
 @router.patch("/leads/{lead_id}")
 def set_lead_status(lead_id: str, status: str):

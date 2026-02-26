@@ -3,7 +3,7 @@ import importlib
 import sys
 
 def test_imports():
-    import backend.backend.core.main
+    import core.main
     import master_agent.master
     import agents.content_agent.agent
     import agents.design_agent.agent

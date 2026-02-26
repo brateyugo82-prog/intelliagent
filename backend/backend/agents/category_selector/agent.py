@@ -1,6 +1,6 @@
 from pathlib import Path
-from backend.backend.core.client_config import load_client_config
-from backend.backend.core.logger import logger
+from core.client_config import load_client_config
+from core.logger import logger
 
 # ------------------------------------------------------------
 # ⚙️ KONSTANTEN

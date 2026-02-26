@@ -1,5 +1,5 @@
 from __future__ import annotations
-from backend.backend.core.platform_times import build_platform_times
+from core.platform_times import build_platform_times
 """
 🗓️ IntelliAgent – Approval → Scheduling
 --------------------------------------
@@ -18,8 +18,8 @@ from pathlib import Path
 import json
 from typing import Any, Dict, Optional, Tuple
 
-from backend.backend.core.logger import logger
-from backend.backend.core.post_store import get_posts, update_post
+from core.logger import logger
+from core.post_store import get_posts, update_post
 
 # =====================================================
 # CONFIG

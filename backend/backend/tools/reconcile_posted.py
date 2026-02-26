@@ -1,5 +1,5 @@
 from pathlib import Path
-from backend.backend.core.post_store import get_posts
+from core.post_store import get_posts
 import shutil
 
 CLIENT = "mtm_client"

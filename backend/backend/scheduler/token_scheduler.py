@@ -26,7 +26,7 @@ from agents.analytics_agent.agent import run as run_analytics
 TOKENS_DIR = Path("state/tokens")
 TOKENS_DIR.mkdir(parents=True, exist_ok=True)
 
-from backend.backend.core.paths import CLIENTS_DIR
+from core.paths import CLIENTS_DIR
 
 ANALYTICS_PERIOD = "30d"   # leicht änderbar
 ANALYTICS_PLATFORM = "multi"

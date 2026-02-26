@@ -17,7 +17,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import List
 
-from backend.backend.core.logger import logger
+from core.logger import logger
 from agents.analytics_agent.agent import run as analytics_run
 
 

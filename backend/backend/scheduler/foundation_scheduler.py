@@ -1,4 +1,4 @@
-from backend.backend.core.platform_times import build_platform_times
+from core.platform_times import build_platform_times
 """
 📅 IntelliAgent – Foundation Post Scheduler (CREATE ONLY)
 --------------------------------------------------------
@@ -16,7 +16,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from backend.backend.core.logger import logger
+from core.logger import logger
 from core import post_store
 
 

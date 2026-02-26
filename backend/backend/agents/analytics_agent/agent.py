@@ -12,10 +12,10 @@ from pathlib import Path
 from datetime import datetime, timedelta, timezone
 import json
 
-from backend.backend.core.logger import logger
-from backend.backend.core.config import get_openai_key
+from core.logger import logger
+from core.config import get_openai_key
 from core import post_store, memory
-from backend.backend.core.leads_store import list_leads
+from core.leads_store import list_leads
 
 try:
     from openai import OpenAI

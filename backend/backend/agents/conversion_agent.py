@@ -10,7 +10,7 @@ from pathlib import Path
 import csv
 from typing import Dict
 
-from backend.backend.core.logger import logger
+from core.logger import logger
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 

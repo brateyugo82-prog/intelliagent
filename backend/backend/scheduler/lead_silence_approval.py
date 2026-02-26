@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from backend.backend.core.leads_store import list_leads, update_status
+from core.leads_store import list_leads, update_status
 from pathlib import Path
 import json
 

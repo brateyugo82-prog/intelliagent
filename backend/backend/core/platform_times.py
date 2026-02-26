@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from backend.backend.core.platforms import PLATFORMS
+from core.platforms import PLATFORMS
 
 def build_platform_times(now: datetime | None = None) -> dict:
     if now is None:

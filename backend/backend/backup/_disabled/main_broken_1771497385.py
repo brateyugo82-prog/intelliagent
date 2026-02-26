@@ -78,25 +78,25 @@ def debug_static():
 
 # ============================================================
 # 🔹 ROUTER IMPORTS
-from backend.backend.api.leads import router as leads_router
-from backend.backend.api.leads_meta import router as leads_meta_router
-from backend.backend.api.stats import router as stats_router
-from backend.backend.api.dashboard import router as dashboard_router
-from backend.backend.api.workflow import router as workflow_router
-from backend.backend.api.publisher import router as publisher_router
-from backend.backend.api.foundation_create_previews import router as foundation_previews_router
-from backend.backend.api.foundation_autoschedule import router as foundation_autoschedule_router
+from api.leads import router as leads_router
+from api.leads_meta import router as leads_meta_router
+from api.stats import router as stats_router
+from api.dashboard import router as dashboard_router
+from api.workflow import router as workflow_router
+from api.publisher import router as publisher_router
+from api.foundation_create_previews import router as foundation_previews_router
+from api.foundation_autoschedule import router as foundation_autoschedule_router
 # ============================================================
 
-from backend.backend.api.leads_meta import router as leads_meta_router
-from backend.backend.api.stats import router as stats_router
+from api.leads_meta import router as leads_meta_router
+from api.stats import router as stats_router
 
-from backend.backend.api.dashboard import router as dashboard_router
-from backend.backend.api.workflow import router as workflow_router
-from backend.backend.api.publisher import router as publisher_router
+from api.dashboard import router as dashboard_router
+from api.workflow import router as workflow_router
+from api.publisher import router as publisher_router
 
-from backend.backend.api.foundation_create_previews import router as foundation_previews_router
-from backend.backend.api.foundation_autoschedule import router as foundation_autoschedule_router
+from api.foundation_create_previews import router as foundation_previews_router
+from api.foundation_autoschedule import router as foundation_autoschedule_router
 
 # ============================================================
 # 🧩 ROUTER REGISTRIEREN

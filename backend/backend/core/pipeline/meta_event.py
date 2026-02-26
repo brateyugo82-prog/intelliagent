@@ -11,8 +11,8 @@
 
 from fastapi import APIRouter, Request
 from typing import Dict, Any
-from backend.backend.core.logger import logger
-from backend.backend.core.leads_store import insert_lead
+from core.logger import logger
+from core.leads_store import insert_lead
 
 router = APIRouter(prefix="/pipeline", tags=["Pipeline"])
 

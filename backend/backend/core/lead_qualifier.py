@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
-from backend.backend.core.lead_parser import parse_lead_text
-from backend.backend.core.leads_store import add_lead, is_duplicate, update_status
+from core.lead_parser import parse_lead_text
+from core.leads_store import add_lead, is_duplicate, update_status
 import json
 from pathlib import Path
 

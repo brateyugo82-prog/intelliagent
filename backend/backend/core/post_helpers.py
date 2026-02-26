@@ -1,7 +1,7 @@
 from pathlib import Path
-from backend.backend.core.post_store import update_post
-from backend.backend.core.time_utils import utcnow_iso
-from backend.backend.core.filesystem import ALLOWED_EXTS
+from core.post_store import update_post
+from core.time_utils import utcnow_iso
+from core.filesystem import ALLOWED_EXTS
 
 def update_preview_urls_for_status(
     client: str,

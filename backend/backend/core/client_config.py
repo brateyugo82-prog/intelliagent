@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from backend.backend.core.logger import logger
+from core.logger import logger
 
 # ------------------------------------------------------------
 # 📁 Basisverzeichnis

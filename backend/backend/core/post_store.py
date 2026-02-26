@@ -185,9 +185,9 @@ def _sync_filesystem(client: str):
         post = _normalize_post(post)
         _inject_foundation_caption(post, client)
 
-        from backend.backend.core.caption_builder import build_caption
+        from core.caption_builder import build_caption
 
-        from backend.backend.core.caption_builder import build_caption
+        from core.caption_builder import build_caption
 
         # 🔥 FORCE 3 PLATFORMS (single image, multi platform)
         base_preview = platform_map.get("instagram") or next(iter(platform_map.values()))
@@ -302,7 +302,7 @@ def ensure_post_exists(post_id: str, client: str) -> Dict[str, Any]:
 # ============================================================
 # 🔄 SYNC STATUS FROM FILESYSTEM (SINGLE SOURCE OF TRUTH)
 # ============================================================
-from backend.backend.api.helpers.dashboard_helpers import (
+from api.helpers.dashboard_helpers import (
     PREVIEW_DIR,
     APPROVED_DIR,
     POSTING_QUEUE_DIR,
@@ -333,7 +333,7 @@ def get_posts(client: str) -> List[Dict[str, Any]]:
         results = p.get("results", {}) or {}
 
         # 🔤 CAPTIONS INJIZIEREN (FOUNDATION / SERVICE / TRUST)
-        from backend.backend.core.caption_builder import build_caption
+        from core.caption_builder import build_caption
         post_id = p.get("id")
 
         # Kategorie aus Post-ID ableiten
@@ -363,7 +363,7 @@ def get_posts(client: str) -> List[Dict[str, Any]]:
         }
 
         # 🧠 FOUNDATION CAPTIONS (Dashboard only)
-        from backend.backend.core.caption_builder import build_caption
+        from core.caption_builder import build_caption
 
         for pf in ("instagram", "facebook", "linkedin"):
             res = p.setdefault("results", {}).setdefault(pf, {})

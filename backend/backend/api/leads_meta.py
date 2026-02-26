@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from backend.backend.core.leads_store import add_lead
+from core.leads_store import add_lead
 import json
 
 router = APIRouter(prefix="/api/leads", tags=["leads-meta"])

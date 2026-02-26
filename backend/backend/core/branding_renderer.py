@@ -2,7 +2,7 @@ from PIL import Image, ImageOps
 from pathlib import Path
 from datetime import date
 import shutil
-from backend.backend.core.logger import logger
+from core.logger import logger
 
 
 def apply_branding(

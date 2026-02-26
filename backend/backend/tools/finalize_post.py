@@ -1,6 +1,6 @@
 import sys
-from backend.backend.core.post_store import get_post_by_id, update_post
-from backend.backend.core.post_files import move_post_to_posted
+from core.post_store import get_post_by_id, update_post
+from core.post_files import move_post_to_posted
 from datetime import datetime
 
 if len(sys.argv) != 3:

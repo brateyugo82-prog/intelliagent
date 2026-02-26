@@ -1,5 +1,5 @@
 import os
-from backend.backend.core.final_caption_builder import build_final_caption
+from core.final_caption_builder import build_final_caption
 import requests
 
 # =================================================

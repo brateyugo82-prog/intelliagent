@@ -22,7 +22,7 @@ import hashlib
 from datetime import datetime, timedelta
 from typing import Dict, Any
 
-from backend.backend.core.logger import logger
+from core.logger import logger
 
 
 # --------------------------------------------------

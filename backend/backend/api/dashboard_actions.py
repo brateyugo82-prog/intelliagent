@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from datetime import datetime
 
-from backend.backend.core.post_store import get_post_by_id, update_post, ensure_post_exists
+from core.post_store import get_post_by_id, update_post, ensure_post_exists
 
-from backend.backend.api.helpers.dashboard_helpers import (
+from api.helpers.dashboard_helpers import (
     CLIENT,
     PREVIEW_DIR,
     APPROVED_DIR,

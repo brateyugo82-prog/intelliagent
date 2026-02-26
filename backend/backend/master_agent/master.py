@@ -10,11 +10,11 @@ from datetime import datetime, date, timezone
 from pathlib import Path
 from typing import Any, List
 
-from backend.backend.core.logger import logger
-from backend.backend.core.preview_mockup import create_platform_mockup
-from backend.backend.core.client_config import load_client_config
-from backend.backend.core.post_store import add_post
-from backend.backend.core.caption_builder import build_caption
+from core.logger import logger
+from core.preview_mockup import create_platform_mockup
+from core.client_config import load_client_config
+from core.post_store import add_post
+from core.caption_builder import build_caption
 
 # ==================================================
 # PATHS / CONSTANTS

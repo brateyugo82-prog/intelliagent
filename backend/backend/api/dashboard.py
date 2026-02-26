@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 from pathlib import Path
 
-from backend.backend.core.post_store import get_posts, ensure_post_exists
-from backend.backend.core.post_ids import base_post_id
-from backend.backend.core.categories import safe_category
+from core.post_store import get_posts, ensure_post_exists
+from core.post_ids import base_post_id
+from core.categories import safe_category
 
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 

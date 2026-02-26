@@ -1,5 +1,5 @@
 import sys
-from backend.backend.api.publisher import publish_single_post
+from api.publisher import publish_single_post
 
 if __name__ == "__main__":
     post_id = sys.argv[1]

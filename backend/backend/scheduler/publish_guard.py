@@ -1,4 +1,4 @@
-from backend.backend.core.platforms import PLATFORMS
+from core.platforms import PLATFORMS
 
 def should_auto_publish(platform: str) -> bool:
     return PLATFORMS.get(platform, {}).get("auto_publish", False)
