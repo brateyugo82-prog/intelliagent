@@ -34,10 +34,12 @@ from api.dashboard_actions import router as dashboard_actions_router
 from api.analytics_api import router as analytics_router
 from api.leads_api import router as leads_router
 from api.leads_meta import router as leads_meta_router
+from api.meta_webhook import router as meta_router
 
 app.include_router(dashboard_router)
 app.include_router(dashboard_actions_router)
 app.include_router(leads_meta_router)
+app.include_router(meta_router)
 
 @app.get("/")
 def root():
