@@ -29,11 +29,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from backend.backend.api.dashboard import router as dashboard_router
-from backend.backend.api.dashboard_actions import router as dashboard_actions_router
-from backend.backend.api.analytics_api import router as analytics_router
-from backend.backend.api.leads_api import router as leads_router
-from backend.backend.api.leads_meta import router as leads_meta_router
+from api.dashboard import router as dashboard_router
+from api.dashboard_actions import router as dashboard_actions_router
+from api.analytics_api import router as analytics_router
+from api.leads_api import router as leads_router
+from api.leads_meta import router as leads_meta_router
 
 app.include_router(dashboard_router)
 app.include_router(dashboard_actions_router)
@@ -48,11 +48,11 @@ app.include_router(analytics_router)
 # ===============================
 # 🔌 LEADS API (STUB)
 # ===============================
-from backend.backend.api.leads_api import router as leads_router
+from api.leads_api import router as leads_router
 app.include_router(leads_router)
 
 # ===============================
 # 🔁 FILESYSTEM RESYNC
 # ===============================
-from backend.backend.api.fs_sync_api import router as fs_sync_router
+from api.fs_sync_api import router as fs_sync_router
 app.include_router(fs_sync_router)
